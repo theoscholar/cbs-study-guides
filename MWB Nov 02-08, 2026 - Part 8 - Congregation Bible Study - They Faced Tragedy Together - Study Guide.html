@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 
-<html class="stage" lang="en">
+<html class="stage dark" lang="en">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <meta content="noindex, nofollow" name="robots"/>
 <title>“They Faced Tragedy Together” — Study Guide</title>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem("bsn-theme");if(t==="light")d.classList.remove("dark");else if(t==="dark")d.classList.add("dark");var f=parseFloat(localStorage.getItem("bsn-fs"));if(f>=15&&f<=24)d.style.setProperty("--fs",f+"px");}catch(e){}})();</script>
 <style>
   :root{
     --bg:#f6f5f1; --panel:#ffffff; --ink:#20242b; --muted:#5d6570;
@@ -349,12 +350,20 @@
     window.open(wolURL(a.dataset.q),'wolpopup','width=500,height=680,scrollbars=yes,resizable=yes');
   });
   // dark mode + text size
-  var root=document.documentElement, fs=18;
-  document.getElementById('tdk').addEventListener('click',function(){
+  var root=document.documentElement;
+  var fs=parseFloat(getComputedStyle(root).getPropertyValue('--fs')) || 18;
+  var tdk=document.getElementById('tdk');
+  tdk.textContent = root.classList.contains('dark') ? '◑ Light' : '◐ Dark';
+  tdk.addEventListener('click',function(){
     root.classList.toggle('dark');
-    this.textContent = root.classList.contains('dark') ? '◑ Light' : '◐ Dark';
+    var d = root.classList.contains('dark');
+    this.textContent = d ? '◑ Light' : '◐ Dark';
+    try{localStorage.setItem('bsn-theme', d ? 'dark' : 'light');}catch(e){}
   });
-  function setFs(){root.style.setProperty('--fs',fs+'px');}
+  function setFs(){
+    root.style.setProperty('--fs',fs+'px');
+    try{localStorage.setItem('bsn-fs',fs);}catch(e){}
+  }
   document.getElementById('tsz').addEventListener('click',function(){fs=Math.min(fs+1,24);setFs();});
   document.getElementById('tsm').addEventListener('click',function(){fs=Math.max(fs-1,15);setFs();});
 
